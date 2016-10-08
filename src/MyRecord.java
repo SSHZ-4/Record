@@ -41,8 +41,8 @@ public class MyRecord
 			mr.stopflag = true;
 			mr.save("zhangxu.mp3");
 			
-			Socket soc=new Socket("localhost",1100);
-			soc.close();
+			//Socket soc=new Socket("localhost",12000);
+			//soc.close();
 		}
 		
 	}
