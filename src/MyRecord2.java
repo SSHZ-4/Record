@@ -41,9 +41,12 @@ public class MyRecord2
 			mr.stopflag = true;
 			mr.save("zhangxu.mp3");
 
+			long start=System.currentTimeMillis();
 			getWords getwords = new getWords();
 			String result = getwords.listen("zhangxu.mp3");
 			System.out.println("读取内容为：" + result);
+			System.out.println("读取内容话费时间为"+(System.currentTimeMillis()-start));
+			
 			
 			PrintWriter pw =new PrintWriter(new File("/home/iot-sol/words.txt"));
 			pw.print(result);
