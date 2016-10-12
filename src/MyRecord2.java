@@ -1,11 +1,9 @@
 
-
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -18,40 +16,43 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
 
+import baidu_voice_to_characters.getWords;
 
-public class MyRecord
+public class MyRecord2
 {
 	public static ServerSocket s2 = null;
+
 	public static void main(String[] args) throws Exception
 	{
 		ServerSocket s = new ServerSocket(10000);
 		s2 = new ServerSocket(11000);
-		while(true)
+		while (true)
 		{
-			
-			System.out.println("开始：" + s); //建立服务器端监听套接字
-			Socket incoming = s.accept( );//等待并接收请求，建立连接套接字
+
+			System.out.println("开始：" + s); // 建立服务器端监听套接字
+			Socket incoming = s.accept();// 等待并接收请求，建立连接套接字
 			incoming.close();
-			
-			
-			MyRecord mr = new MyRecord();
+
+			MyRecord2 mr = new MyRecord2();
 			System.out.println("start recording...");
 			mr.capture();
 			System.out.println("end recording...");
 			mr.stopflag = true;
 			mr.save("zhangxu.mp3");
-			
-			//Socket soc=new Socket("localhost",12000);
-			//soc.close();
+
+			getWords getwords = new getWords();
+			String result = getwords.listen("zhangxu.mp3");
+			System.out.println("读取内容为：" + result);
+
+			PrintWriter pw = new PrintWriter(new File("/home/iot-sol/words.txt"));
+			pw.println(result);
+			pw.close();
 		}
-		
 	}
 
-	
 	/**
 	 * 关键词检测
 	 */
-	
 
 	// 定义录音格式
 	AudioFormat af = null;
@@ -86,15 +87,11 @@ public class MyRecord
 			Record record = new Record();
 			Thread t1 = new Thread(record);
 			t1.start();
-			
-			
-			
-			System.out.println("开始：" + s2); //建立服务器端监听套接字
-			Socket incoming = s2.accept( );//等待并接收请求，建立连接套接字
+
+			System.out.println("开始：" + s2); // 建立服务器端监听套接字
+			Socket incoming = s2.accept();// 等待并接收请求，建立连接套接字
 			incoming.close();
-			
-			
-			
+
 			td.close();
 			// 在这里在这里！！！！！！！！！！！！！！！！！！
 
@@ -113,56 +110,6 @@ public class MyRecord
 	}
 
 	// 播放录音
-	public void play()
-	{
-		// 将baos中的数据转换为字节数据
-		byte audioData[] = baos.toByteArray();
-		// 转换为输入流
-		bais = new ByteArrayInputStream(audioData);
-		af = getAudioFormat();
-		ais = new AudioInputStream(bais, af, audioData.length / af.getFrameSize());
-
-		try
-		{
-			DataLine.Info dataLineInfo = new DataLine.Info(SourceDataLine.class, af);
-			sd = (SourceDataLine) AudioSystem.getLine(dataLineInfo);
-			sd.open(af);
-			sd.start();
-			// 创建播放进程
-			Play py = new Play();
-			Thread t2 = new Thread(py);
-			t2.start();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				// 关闭流
-				if (ais != null)
-				{
-					ais.close();
-				}
-				if (bais != null)
-				{
-					bais.close();
-				}
-				if (baos != null)
-				{
-					baos.close();
-				}
-
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-
-	}
 
 	// 保存录音
 	public void save(String files)
