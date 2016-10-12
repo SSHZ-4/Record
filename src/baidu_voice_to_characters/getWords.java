@@ -49,6 +49,7 @@ public class getWords
 		HttpURLConnection conn = (HttpURLConnection) new URL(listenURL).openConnection();
 		System.out.println("connection话费时间"+(System.currentTimeMillis()-start));
 
+		
 		JSONObject params = new JSONObject();
 		params.put("format", "wav");
 		params.put("rate", 8000);
@@ -58,6 +59,7 @@ public class getWords
 		params.put("len", pcmFile.length());
 		params.put("speech", DatatypeConverter.printBase64Binary(loadFile(pcmFile)));
 
+		start=System.currentTimeMillis();
 		// add request header
 		conn.setRequestMethod("POST");
 		conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
@@ -70,8 +72,12 @@ public class getWords
 		wr.writeBytes(params.toString());
 		wr.flush();
 		wr.close();
-
+		System.out.println("发出请求时间"+(System.currentTimeMillis()-start));
+		
+		start=System.currentTimeMillis();
 		String result = printResponse(conn);
+		System.out.println("请求回调时间"+(System.currentTimeMillis()-start));
+		
 		JSONObject jsonObject = new JSONObject(result);
 		Object a = null;
 		try
