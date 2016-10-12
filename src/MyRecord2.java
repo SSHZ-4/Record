@@ -45,6 +45,9 @@ public class MyRecord2
 			String result = getwords.listen("zhangxu.mp3");
 			System.out.println("读取内容为：" + result);
 			
+			PrintWriter pw =new PrintWriter(new File("/home/iot-sol/words.txt"));
+			pw.print(result);
+			pw.close();
 			Socket soc=new Socket("localhost",12000);
 			soc.close();
 
