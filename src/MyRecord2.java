@@ -2,7 +2,10 @@
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -25,13 +28,13 @@ public class MyRecord2
 
 	public static void main(String[] args) throws Exception
 	{
-		ServerSocket s = new ServerSocket(10000);
+		ServerSocket ss = new ServerSocket(10000);
 		s2 = new ServerSocket(11000);
 		while (true)
 		{
 
-			System.out.println("开始：" + s); // 建立服务器端监听套接字
-			Socket incoming = s.accept();// 等待并接收请求，建立连接套接字
+			System.out.println("开始：" + ss); // 建立服务器端监听套接字
+			Socket incoming = ss.accept();// 等待并接收请求，建立连接套接字
 			incoming.close();
 
 			MyRecord2 mr = new MyRecord2();
@@ -42,8 +45,13 @@ public class MyRecord2
 			mr.save("zhangxu.mp3");
 
 			long start=System.currentTimeMillis();
-			getWords getwords = new getWords();
-			String result = getwords.listen("zhangxu.mp3");
+			
+			
+			
+			//在这里将文件传输大到鹏总电脑
+			//String result=xxx,一个函数，包含文件上传，并且返回语音识别的结果
+			String result=null;
+			
 			System.out.println("读取内容为：" + result);
 			System.out.println("读取内容话费时间为"+(System.currentTimeMillis()-start));
 			

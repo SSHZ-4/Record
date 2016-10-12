@@ -32,7 +32,7 @@ public class getWords
 				+ apiKey + "&client_secret=" + secretKey;
 		HttpURLConnection conn1 = (HttpURLConnection) new URL(getTokenURL).openConnection();
 		token = new JSONObject(printResponse(conn1)).getString("access_token");
-		// System.out.println("token:"+token);
+		System.out.println("token:"+token);
 	}
 
 	private static void getToken() throws Exception
@@ -44,7 +44,6 @@ public class getWords
 	{
 
 		File pcmFile = new File(fileName);
-		
 		long start=System.currentTimeMillis();
 		HttpURLConnection conn = (HttpURLConnection) new URL(listenURL).openConnection();
 		System.out.println("connection话费时间"+(System.currentTimeMillis()-start));
@@ -58,6 +57,8 @@ public class getWords
 		params.put("cuid", cuid);
 		params.put("len", pcmFile.length());
 		params.put("speech", DatatypeConverter.printBase64Binary(loadFile(pcmFile)));
+		System.out.println("base64:"+DatatypeConverter.printBase64Binary(loadFile(pcmFile)));
+		System.out.println("length="+pcmFile.length());
 
 		start=System.currentTimeMillis();
 		// add request header
