@@ -44,7 +44,10 @@ public class getWords
 	{
 
 		File pcmFile = new File(fileName);
+		
+		long start=System.currentTimeMillis();
 		HttpURLConnection conn = (HttpURLConnection) new URL(listenURL).openConnection();
+		System.out.println("connection话费时间"+(System.currentTimeMillis()-start));
 
 		JSONObject params = new JSONObject();
 		params.put("format", "wav");
