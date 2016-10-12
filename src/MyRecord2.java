@@ -21,6 +21,7 @@ import baidu_voice_to_characters.getWords;
 public class MyRecord2
 {
 	public static ServerSocket s2 = null;
+	public static ServerSocket s3 = null;
 
 	public static void main(String[] args) throws Exception
 	{
@@ -43,10 +44,10 @@ public class MyRecord2
 			getWords getwords = new getWords();
 			String result = getwords.listen("zhangxu.mp3");
 			System.out.println("读取内容为：" + result);
+			
+			Socket soc=new Socket("localhost",12000);
+			soc.close();
 
-			PrintWriter pw = new PrintWriter(new File("/home/iot-sol/words.txt"));
-			pw.println(result);
-			pw.close();
 		}
 	}
 
