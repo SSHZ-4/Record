@@ -44,24 +44,15 @@ public class MyRecord2
 			mr.stopflag = true;
 			mr.save("zhangxu.mp3");
 
-			long start=System.currentTimeMillis();
+			
 			
 			
 			
 			//在这里将文件传输大到鹏总电脑
 			//String result=xxx,一个函数，包含文件上传，并且返回语音识别的结果
-			String result=null;
-			
-			System.out.println("读取内容为：" + result);
-			System.out.println("读取内容话费时间为"+(System.currentTimeMillis()-start));
-			
-			
-			PrintWriter pw =new PrintWriter(new File("/home/iot-sol/words.txt"));
-			pw.print(result);
-			pw.close();
 			Socket soc=new Socket("localhost",12000);
 			soc.close();
-
+			System.out.println("已通知对方录音结束");
 		}
 	}
 
